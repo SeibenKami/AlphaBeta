@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lens/database/database.dart';
 import 'package:lens/screens/home/homepage.dart';
 import 'package:lens/screens/settings/settings.dart';
 
@@ -10,7 +11,14 @@ class Browser extends StatefulWidget {
 }
 
 class _BrowserState extends State<Browser> {
+  final DBProvider _dbProvider = DBProvider();
   final pagecontroller = PageController(initialPage: 0);
+
+  @override
+  void initState() {
+    super.initState();
+    _dbProvider.database;
+  }
   @override
   Widget build(BuildContext context) {
     return PageView(
