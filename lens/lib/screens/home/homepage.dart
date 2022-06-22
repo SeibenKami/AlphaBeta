@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lens/screens/search_page/search_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -8,9 +9,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final GlobalKey<FormState> _searchFormKey = GlobalKey<FormState>();
+  final TextEditingController searchController = TextEditingController();
+
+  void startSearch(String value) {
+    if (_searchFormKey.currentState!.validate()) {
+      _searchFormKey.currentState!.save();
+      if (value.isNotEmpty) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SearchScreen(keyword: value)));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
         body: SafeArea(
       child: Stack(
@@ -70,19 +85,28 @@ class _HomePageState extends State<HomePage> {
                       height: 30,
                     ),
                     /////Search textfeild
-                    TextFormField(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
+                    Form(
+                      key: _searchFormKey,
+                      child: TextFormField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
-                              ),
-                              hintText: 'Search for web address',
-                          suffixIcon: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.search,
-                              color: Colors.black,
                             ),
-                          )),
+                            hintText: 'Search for web address',
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                startSearch(searchController.text);
+                              },
+                              icon: const Icon(
+                                Icons.search,
+                                color: Colors.black,
+                              ),
+                            )),
+                        onFieldSubmitted: (value) {
+                          startSearch(value);
+                        },
+                      ),
                     ),
                     const SizedBox(
                       height: 10,
@@ -90,7 +114,9 @@ class _HomePageState extends State<HomePage> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            startSearch(searchController.text);
+                          },
                           style: TextButton.styleFrom(
                               backgroundColor: Colors.blue,
                               shape: RoundedRectangleBorder(
@@ -169,17 +195,15 @@ class _HomePageState extends State<HomePage> {
               children: [
                 SizedBox(
                   height: 30,
-                  width:30,
+                  width: 30,
                   child: TextButton(
-                    onPressed: (){
-          
-                  }, 
-                  
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    shape: RoundedRectangleBorder(side:const BorderSide(color: Colors.blue),borderRadius: BorderRadius.circular(5))
-                  ),
-                  child:const Icon(Icons.add)),
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          shape: RoundedRectangleBorder(
+                              side: const BorderSide(color: Colors.blue),
+                              borderRadius: BorderRadius.circular(5))),
+                      child: const Icon(Icons.add)),
                 )
               ],
             ),
