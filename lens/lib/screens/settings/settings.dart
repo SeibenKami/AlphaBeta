@@ -14,6 +14,14 @@ class _SettingsState extends State<Settings> {
     return Icon(
       Icons.arrow_forward_ios,
       size: 20.0,
+      color: Color(0xFF999999),
+    );
+  }
+  Widget _settings() {
+    return Icon(
+      Icons.settings,
+      size: 20.0,
+      color: Color(0xFF999999),
     );
   }
 
@@ -22,23 +30,20 @@ class _SettingsState extends State<Settings> {
     var brightness = MediaQuery.of(context).platformBrightness;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: Text(
           'Settings',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
       body: Container(
-        color: (brightness == Brightness.light)
-            ? Color(0xFFF7F7F7)
-            : Color(0xFF000000),
+        color: Color(0xFF000000),
         child: ListView(
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Container(
-                color: (brightness == Brightness.light)
-                    ? Color(0xFFF7F7F7)
-                    : Color(0xFF000000),
+                color: Color(0xFF000000),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -47,25 +52,41 @@ class _SettingsState extends State<Settings> {
                       child: Text(
                         'App Settings',
                         style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF999999)),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF999999),
+                        ),
                       ),
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     ItemCard(
-                      textColor: Colors.black,
-
+                      textColor: Color(0xFF999999),
                       title: 'Settings Item 01',
-                      color: (brightness == Brightness.light)
-                          ? Colors.white
-                          : Theme.of(context).scaffoldBackgroundColor,
-                      rightWidget: Container(),
+                      color: Colors.black,
+                      rightWidget: _settings(),
                       callback: () {
                         print('Tap Settings Item 01');
                       },
+                    ),
+                    ItemCard(
+                      textColor: Color(0xFF999999),
+                      title: 'Settings Item 01',
+                      color: Colors.black,
+                      rightWidget:  _settings(),
+                      callback: () {
+                        print('Tap Settings Item 01');
+                      },
+                    ),
+                    ItemCard(
+                      title: 'Settings Item 06',
+                      color: Colors.black,
+                      rightWidget: _settings(),
+                      callback: () {
+                        print('Tap Settings Item 06');
+                      },
+                      textColor: Color(0xFF999999),
                     ),
                     SizedBox(
                       height: 40,
@@ -75,122 +96,54 @@ class _SettingsState extends State<Settings> {
                       child: Text(
                         'Others',
                         style: TextStyle(
-                            fontFamily: 'NotoSansJP',
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF999999)),
+                          fontFamily: 'NotoSansJP',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF999999),
+                        ),
                       ),
                     ),
                     SizedBox(
                       height: 10,
                     ),
                     ItemCard(
-                      textColor: Colors.black,
-
+                      textColor: Colors.white,
                       title: 'Settings Item 02',
-                      color: (brightness == Brightness.light)
-                          ? Colors.white
-                          : Theme.of(context).scaffoldBackgroundColor,
+                      color: Colors.grey.shade900,
                       rightWidget: _arrow(),
                       callback: () {
                         print('Tap Settings Item 02');
                       },
                     ),
                     ItemCard(
-                      textColor: Colors.black,
-
+                      textColor: Colors.white,
                       title: 'Settings Item 03',
-                      color: (brightness == Brightness.light)
-                          ? Colors.white
-                          : Theme.of(context).scaffoldBackgroundColor,
+                      color: Colors.grey.shade900,
                       rightWidget: _arrow(),
                       callback: () {
                         print('Tap Settings Item 03');
                       },
                     ),
-                    ItemCard(
-                      textColor: Colors.black,
-
-                      title: 'Settings Item 04',
-                      color: (brightness == Brightness.light)
-                          ? Colors.white
-                          : Theme.of(context).scaffoldBackgroundColor,
-                      rightWidget: _arrow(),
-                      callback: () {
-                        print('Tap Settings Item 04');
-                      },
-                    ),
-                    ItemCard(
-                      title: 'Settings Item 05',
-                      color: (brightness == Brightness.light)
-                          ? Colors.white
-                          : Theme.of(context).scaffoldBackgroundColor,
-                      rightWidget: Container(),
-                      callback: () {
-                        print('Tap Settings Item 05');
-                      },
-                      textColor: Colors.black,
-
-                    ),
-                    ItemCard(
-                      title: 'Settings Item 06',
-                      color: (brightness == Brightness.light)
-                          ? Colors.white
-                          : Theme.of(context).scaffoldBackgroundColor,
-                      rightWidget: Container(),
-                      callback: () {
-                        print('Tap Settings Item 06');
-                      },
-                      textColor: Colors.black,
-                    ),
-                    ItemCard(
-                      textColor: Colors.black,
-
-                      title: 'Settings Item 07',
-                      color: (brightness == Brightness.light)
-                          ? Colors.white
-                          : Theme.of(context).scaffoldBackgroundColor,
-                      rightWidget: Container(),
-                      callback: () {
-                        print('Tap Settings Item 07');
-                      },
-                    ),
                     SizedBox(
-                      height: 40,
-                    ),
-                    ItemCard(
-                      textColor: Colors.black,
-
-                      title: 'Settings Item 08',
-                      color: (brightness == Brightness.light)
-                          ? Colors.white
-                          : Theme.of(context).scaffoldBackgroundColor,
-                      rightWidget: Container(),
-                      callback: () {
-                        print('Tap Settings Item 08');
-                      },
+                      height: 60,
                     ),
                     ItemCard(
                       rightWidget: Container(),
                       title: 'Settings Item 09',
-                      color: (brightness == Brightness.light)
-                          ? Colors.white
-                          : Theme.of(context).scaffoldBackgroundColor,
+                      color: Colors.grey.shade900,
                       callback: () {
                         print('Tap Settings Item 09');
                       },
-                      textColor: Colors.red,
+                      textColor: Color(0xFF999999),
                     ),
                     ItemCard(
-                      textColor: Colors.black,
-
+                      textColor: Colors.red,
                       title: 'version',
-                      color: (brightness == Brightness.light)
-                          ? Colors.white
-                          : Theme.of(context).scaffoldBackgroundColor,
+                      color: Colors.grey.shade900,
                       rightWidget: Center(
                         child: Text('1.0.0',
                             style: TextStyle(
+                              color: Colors.red,
                               fontSize: 12,
                               fontWeight: FontWeight.normal,
                             )),
