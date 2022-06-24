@@ -1,8 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:lens/models/search_model.dart';
 import 'package:lens/screens/browser/browser.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:lens/screens/search_page/components/search_cards.dart';
+import 'package:lens/services/api_service.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key, required this.keyword}) : super(key: key);
@@ -14,7 +14,6 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController searchController = TextEditingController();
-   Completer<WebViewController> webController = Completer<WebViewController>();
 
   @override
   void initState() {
@@ -61,26 +60,88 @@ class _SearchScreenState extends State<SearchScreen> {
                 suffixIcon: IconButton(
                   onPressed: () {},
                   icon: const Icon(
-                    Icons.bookmark_add_outlined,
+                    Icons.search,
                     color: Colors.black,
                     size: 20,
                   ),
                 )),
             onFieldSubmitted: (value) {
-              searchController.text=value;
+              searchController.text = value;
             },
           ),
         ),
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.menu))],
       ),
       body: SafeArea(
-          child: WebView(
-        initialUrl: "https://google.com/search?q=${searchController.text}",
-        javascriptMode: JavascriptMode.unrestricted,
-         onWebViewCreated: (WebViewController webViewController) {
-           webController.complete(webViewController);
-        },
+        child: Stack(
+          children: [
+            //BAckground
+            Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                colors: [
+                  Colors.green.withOpacity(0),
+                  Colors.green.withOpacity(0.1),
+                  Colors.green.withOpacity(0.4),
+                ],
               )),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: FutureBuilder<Map<String, dynamic>>(
+                future: ApiService().getSearches(widget.keyword),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final results = snapshot.data;
+                    final engineTitle = results!["context"]['title'];
+                    final sites = results['items'];
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "$engineTitle",
+                            style: const TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'fantasy',
+                                fontSize: 25),
+                          ),
+                        ),
+                        Expanded(
+                          child: ListView.builder(
+                              itemCount: sites.length,
+                              itemBuilder: (context, index) {
+                                SearchModel searched =
+                                    SearchModel.fromJson(sites[index]);
+                                return SeacrhCard(
+                                  title: searched.title,
+                                  cseImage: searched.cseImage,
+                                  cseThumbnail: searched.cseThumbnail,
+                                  displaylink: searched.displaylink,
+                                  id: searched.id,
+                                  link: searched.link,
+                                  snippet: searched.snippet,
+                                  thumbnailTitle: searched.thumbnailTitle,
+                                );
+                              }),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return const Center(
+                        child: Text(
+                      "Searcing ...",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ));
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
