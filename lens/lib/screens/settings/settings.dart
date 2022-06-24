@@ -51,7 +51,6 @@ class _SettingsState extends State<Settings> {
                       height: 10,
                     ),
                     ItemCard(
-                      textColor: const Color(0xFF999999),
                       title: 'New Tab',
                       color: Colors.black,
                       rightWidget:const Icon(Icons.add),
@@ -60,7 +59,6 @@ class _SettingsState extends State<Settings> {
                       },
                     ),
                     ItemCard(
-                      textColor: const Color(0xFF999999),
                       title: 'Private Search',
                       color: Colors.black,
                       rightWidget: const Icon(Icons.privacy_tip),
@@ -75,7 +73,6 @@ class _SettingsState extends State<Settings> {
                       callback: () {
                         print('Tap Settings Item 06');
                       },
-                      textColor: const Color(0xFF999999),
                     ),
                     const SizedBox(
                       height: 40,
@@ -96,7 +93,6 @@ class _SettingsState extends State<Settings> {
                       height: 10,
                     ),
                     ItemCard(
-                      textColor: Colors.white,
                       title: 'History',
                       color: Colors.grey.shade900,
                       rightWidget: _arrow(),
@@ -105,7 +101,6 @@ class _SettingsState extends State<Settings> {
                       },
                     ),
                     ItemCard(
-                      textColor: Colors.white,
                       title: 'Bookmarks',
                       color: Colors.grey.shade900,
                       rightWidget: _arrow(),
@@ -117,7 +112,6 @@ class _SettingsState extends State<Settings> {
                       height: 60,
                     ),
                     ItemCard(
-                      textColor: Colors.red,
                       title: 'version',
                       color: Colors.grey.shade900,
                       rightWidget: const Center(
