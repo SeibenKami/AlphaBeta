@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lens/screens/browser/browser.dart';
 
 void main() {
+
   runApp(const MyApp());  //
         // Try running your application with "flutter run". You'll see the
         // application has a blue toolbar. Then, without quitting the app, try

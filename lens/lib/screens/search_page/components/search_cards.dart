@@ -1,32 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:lens/models/search_model.dart';
 import 'package:lens/screens/site/site_web_view.dart';
 
 class SeacrhCard extends StatelessWidget {
   const SeacrhCard({
     Key? key,
-    required this.title,
-    required this.cseImage,
-    required this.cseThumbnail,
-    required this.displaylink,
-    required this.id,
-    required this.link,
-    required this.snippet,
-    required this.thumbnailTitle,
+    required this.search,
+    
   }) : super(key: key);
-  final String id;
-  final String title;
-  final String link;
-  final String displaylink;
-  final String snippet;
-  final String cseThumbnail;
-  final String cseImage;
-  final String thumbnailTitle;
+  final SearchModel search;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>SiteView(url: link)));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>SiteView(search:search)));
       },
       child: Card(
         elevation: 2,
@@ -37,7 +25,7 @@ class SeacrhCard extends StatelessWidget {
             children: [
               /////Header
               Text(
-                title,
+                search.title,
                 maxLines: 2,
                 style: const TextStyle(
                     // color: Colors.green,
@@ -52,9 +40,9 @@ class SeacrhCard extends StatelessWidget {
               ////Site title and logo
               Row(
                 children: [
-                  cseThumbnail.isNotEmpty
+                  search.cseThumbnail.isNotEmpty
                       ? Image.network(
-                          cseThumbnail,
+                          search.cseThumbnail,
                           height: 30,
                           width: 30,
                           fit: BoxFit.fill,
@@ -69,7 +57,7 @@ class SeacrhCard extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      link,
+                      search.link,
                       maxLines: 1,
                       style: const TextStyle(overflow: TextOverflow.ellipsis,color: Colors.blue),
                     ),
@@ -82,7 +70,7 @@ class SeacrhCard extends StatelessWidget {
 
               ///Explanation
               Text(
-                snippet,
+                search.snippet,
                 maxLines: 3,
                 style: const TextStyle(overflow: TextOverflow.ellipsis,fontSize: 14),
               )

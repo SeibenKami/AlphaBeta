@@ -38,20 +38,23 @@ class DBProvider {
   Future _createDB(Database db, int version) async {
     const text = "TEXT NOT NULL";
     await db.execute('''CREATE TABLE Sites ( 
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          id $text PRIMARY KEY,
           title $text,
           searchDate $text,
           link $text,
-          description $text,
+          displaylink $text,
+          snippet $text,
+          cseThumbnail $text,
+          cseImage $text,
+          thumbnailTitle $text,
           isFavorite INTEGER NOT NULL
         );
       ''').then((value) {});
   }
 
-  Future<Site> addSite(Site site) async {
+  Future addSite(Site site) async {
     final _db = await database;
-    final id = await _db.insert("Sites", site.toJson());
-    return site.copy(id: id);
+    await _db.insert("Sites", site.toJson());
   }
 
   Future<void> deleteSite(int id) async {
@@ -78,21 +81,20 @@ class DBProvider {
     }
   }
 
-  Future<int> updateSiteValue(String key,dynamic value,int id) async {
+  Future<int> updateSiteValue(String key, dynamic value, int id) async {
     final _db = await database;
-    return  _db.update(
+    return _db.update(
       "Sites",
-      {key:value},
-       where: 'id = ?',
+      {key: value},
+      where: 'id = ?',
       whereArgs: [id],
     );
   }
-   Future<List<Site>> readFavoriteSites() async {
+
+  Future<List<Site>> readFavoriteSites() async {
     final _db = await database;
     final result = await _db.query("Sites",
-    where: 'isFavorite = ?',
-    whereArgs: [1],
-     orderBy: "searchDate ASC");
+        where: 'isFavorite = ?', whereArgs: [1], orderBy: "searchDate ASC");
     if (result.isNotEmpty) {
       return result.map((e) => Site.fromJson(e)).toList();
     } else {
@@ -102,8 +104,7 @@ class DBProvider {
 
   Future<List<Site>> readAllSites() async {
     final _db = await database;
-    final result = await _db.query("Sites",
-     orderBy: "searchDate ASC");
+    final result = await _db.query("Sites", orderBy: "searchDate ASC");
     if (result.isNotEmpty) {
       return result.map((e) => Site.fromJson(e)).toList();
     } else {
