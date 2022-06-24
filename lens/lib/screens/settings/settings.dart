@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../components/item_card.dart';
 
 class Settings extends StatefulWidget {
@@ -11,45 +10,35 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   Widget _arrow() {
-    return Icon(
+    return const Icon(
       Icons.arrow_forward_ios,
       size: 20.0,
-      color: Color(0xFF999999),
     );
   }
-  Widget _settings() {
-    return Icon(
-      Icons.settings,
-      size: 20.0,
-      color: Color(0xFF999999),
-    );
-  }
+  
 
   @override
   Widget build(BuildContext context) {
-    var brightness = MediaQuery.of(context).platformBrightness;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text(
+       
+        title: const Text(
           'Settings',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
       body: Container(
-        color: Color(0xFF000000),
         child: ListView(
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Container(
-                color: Color(0xFF000000),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.only(left: 16),
-                      child: Text(
+                      padding:const EdgeInsets.only(left: 16),
+                      child:const Text(
                         'App Settings',
                         style: TextStyle(
                           fontSize: 12,
@@ -58,42 +47,42 @@ class _SettingsState extends State<Settings> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     ItemCard(
-                      textColor: Color(0xFF999999),
-                      title: 'Settings Item 01',
+                      textColor: const Color(0xFF999999),
+                      title: 'New Tab',
                       color: Colors.black,
-                      rightWidget: _settings(),
+                      rightWidget:const Icon(Icons.add),
                       callback: () {
                         print('Tap Settings Item 01');
                       },
                     ),
                     ItemCard(
-                      textColor: Color(0xFF999999),
-                      title: 'Settings Item 01',
+                      textColor: const Color(0xFF999999),
+                      title: 'Private Search',
                       color: Colors.black,
-                      rightWidget:  _settings(),
+                      rightWidget: const Icon(Icons.privacy_tip),
                       callback: () {
                         print('Tap Settings Item 01');
                       },
                     ),
                     ItemCard(
-                      title: 'Settings Item 06',
+                      title: 'Dark Theme',
                       color: Colors.black,
-                      rightWidget: _settings(),
+                      rightWidget:const Icon(Icons.dark_mode),
                       callback: () {
                         print('Tap Settings Item 06');
                       },
-                      textColor: Color(0xFF999999),
+                      textColor: const Color(0xFF999999),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 40,
                     ),
                     Container(
-                      padding: EdgeInsets.only(left: 16),
-                      child: Text(
+                      padding:const EdgeInsets.only(left: 16),
+                      child: const Text(
                         'Others',
                         style: TextStyle(
                           fontFamily: 'NotoSansJP',
@@ -103,12 +92,12 @@ class _SettingsState extends State<Settings> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     ItemCard(
                       textColor: Colors.white,
-                      title: 'Settings Item 02',
+                      title: 'History',
                       color: Colors.grey.shade900,
                       rightWidget: _arrow(),
                       callback: () {
@@ -117,30 +106,21 @@ class _SettingsState extends State<Settings> {
                     ),
                     ItemCard(
                       textColor: Colors.white,
-                      title: 'Settings Item 03',
+                      title: 'Bookmarks',
                       color: Colors.grey.shade900,
                       rightWidget: _arrow(),
                       callback: () {
                         print('Tap Settings Item 03');
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 60,
-                    ),
-                    ItemCard(
-                      rightWidget: Container(),
-                      title: 'Settings Item 09',
-                      color: Colors.grey.shade900,
-                      callback: () {
-                        print('Tap Settings Item 09');
-                      },
-                      textColor: Color(0xFF999999),
                     ),
                     ItemCard(
                       textColor: Colors.red,
                       title: 'version',
                       color: Colors.grey.shade900,
-                      rightWidget: Center(
+                      rightWidget: const Center(
                         child: Text('1.0.0',
                             style: TextStyle(
                               color: Colors.red,
@@ -150,7 +130,7 @@ class _SettingsState extends State<Settings> {
                       ),
                       callback: () {},
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 200,
                     ),
                   ],

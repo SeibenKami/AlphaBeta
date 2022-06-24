@@ -58,7 +58,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     borderSide: const BorderSide(color: Colors.white)),
                 hintText: 'Search for web address',
                 suffixIcon: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {});},
                   icon: const Icon(
                     Icons.search,
                     color: Colors.black,
@@ -116,6 +117,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 SearchModel searched =
                                     SearchModel.fromJson(sites[index]);
                                 return SeacrhCard(
+                                    search: SearchModel(
                                   title: searched.title,
                                   cseImage: searched.cseImage,
                                   cseThumbnail: searched.cseThumbnail,
@@ -124,7 +126,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   link: searched.link,
                                   snippet: searched.snippet,
                                   thumbnailTitle: searched.thumbnailTitle,
-                                );
+                                ));
                               }),
                         ),
                       ],

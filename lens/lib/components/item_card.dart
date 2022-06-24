@@ -18,7 +18,6 @@ class ItemCard extends StatelessWidget {
     return GestureDetector(
       child: Container(
         height: 60,
-        color: color,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[

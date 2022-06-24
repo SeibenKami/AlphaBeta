@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lens/database/database.dart';
 import 'package:lens/screens/search_page/search_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,6 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final GlobalKey<FormState> _searchFormKey = GlobalKey<FormState>();
   final TextEditingController searchController = TextEditingController();
+  DBProvider dbProvider = DBProvider();
 
   void startSearch(String value) {
     if (_searchFormKey.currentState!.validate()) {
@@ -153,35 +155,50 @@ class _HomePageState extends State<HomePage> {
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                       Expanded(
-                          child: ListView.builder(
-                              itemCount: 2,
-                              itemBuilder: ((context, index) {
-                                return ListTile(
-                                  title: Text(
-                                    'title $index',
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  subtitle: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "www.example.com$index ",
-                                        style:
-                                            const TextStyle(color: Colors.red),
-                                      ),
-                                      Text(
-                                        "The mabjn jbadsdhds udbsud shdush dhsidh ijshid sihd ishdih sid ish idhsihdishidhishd dihsihd  dhsih$index ",
-                                        maxLines: 3,
-                                        style: const TextStyle(
-                                            overflow: TextOverflow.ellipsis),
-                                      ),
+                          child: FutureBuilder(
+                              future: dbProvider.readAllSites(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return ListView.builder(
+                                      itemCount: 2,
+                                      itemBuilder: ((context, index) {
+                                        return ListTile(
+                                          title: Text(
+                                            'title $index',
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          subtitle: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "www.example.com$index ",
+                                                style: const TextStyle(
+                                                    color: Colors.red),
+                                              ),
+                                              Text(
+                                                "The mabjn jbadsdhds udbsud shdush dhsidh ijshid sihd ishdih sid ish idhsihdishidhishd dihsihd  dhsih$index ",
+                                                maxLines: 3,
+                                                style: const TextStyle(
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
+                                              ),
+                                            ],
+                                          ),
+                                          isThreeLine: true,
+                                        );
+                                      }));
+                                } else {
+                                  return Center(child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      Icon(Icons.history,size: 30,),
+                                      Text('No searches found')
                                     ],
-                                  ),
-                                  isThreeLine: true,
-                                );
-                              }))),
+                                  ),);
+                                }
+                              })),
                     ],
                   ))
             ]),
