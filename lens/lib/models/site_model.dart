@@ -32,7 +32,7 @@ class Site {
           title: json['title'],
           cseImage: json['cseImage'],
           cseThumbnail: json['cseThumbnail'],
-          displaylink: json['displayLink'],
+          displaylink: json['displaylink'],
           link: json['link'],
           snippet: json['snippet'],
           thumbnailTitle: json['thumbnailTitle'],

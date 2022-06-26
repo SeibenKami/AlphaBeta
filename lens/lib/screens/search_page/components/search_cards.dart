@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:lens/models/search_model.dart';
+import 'package:lens/screens/settings/private_browsing/private_siteview.dart';
 import 'package:lens/screens/site/site_web_view.dart';
 
 class SeacrhCard extends StatelessWidget {
   const SeacrhCard({
     Key? key,
     required this.search,
-    
+    this.isPrivate,
   }) : super(key: key);
   final SearchModel search;
+  final bool? isPrivate;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>SiteView(search:search)));
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => isPrivate != null
+                    ? isPrivate!
+                        ? PrivateWebView(search: search)
+                        : SiteView(search: search)
+                    : SiteView(search: search)));
       },
       child: Card(
         elevation: 2,
@@ -59,7 +68,8 @@ class SeacrhCard extends StatelessWidget {
                     child: Text(
                       search.link,
                       maxLines: 1,
-                      style: const TextStyle(overflow: TextOverflow.ellipsis,color: Colors.blue),
+                      style: const TextStyle(
+                          overflow: TextOverflow.ellipsis, color: Colors.blue),
                     ),
                   )
                 ],
@@ -72,7 +82,8 @@ class SeacrhCard extends StatelessWidget {
               Text(
                 search.snippet,
                 maxLines: 3,
-                style: const TextStyle(overflow: TextOverflow.ellipsis,fontSize: 14),
+                style: const TextStyle(
+                    overflow: TextOverflow.ellipsis, fontSize: 14),
               )
             ],
           ),

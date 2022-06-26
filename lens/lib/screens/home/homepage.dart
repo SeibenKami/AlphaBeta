@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lens/database/database.dart';
+import 'package:lens/models/site_model.dart';
 import 'package:lens/screens/search_page/search_screen.dart';
+import 'package:lens/screens/settings/history/history.dart';
+import 'package:lens/screens/settings/settings.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -149,36 +152,70 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Recent Searches',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Recent Pages',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const History()));
+                            },
+                            child: const Text(
+                              'see all >>',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black54,
+                                  fontSize: 16,
+                                  decoration: TextDecoration.underline),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 5,
                       ),
                       Expanded(
-                          child: FutureBuilder(
+                          child: FutureBuilder<List<Site>>(
                               future: dbProvider.readAllSites(),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
+                                  final results = snapshot.data;
                                   return ListView.builder(
-                                      itemCount: 2,
+                                      itemCount: snapshot.data!.length >= 2
+                                          ? 2
+                                          : snapshot.data!.length,
                                       itemBuilder: ((context, index) {
+                                        Site site = results![index];
                                         return ListTile(
                                           title: Text(
-                                            'title $index',
+                                            site.search.title,
+                                            maxLines: 1,
                                             style: const TextStyle(
-                                                fontWeight: FontWeight.w500),
+                                                fontWeight: FontWeight.w500,
+                                                overflow:
+                                                    TextOverflow.ellipsis),
                                           ),
                                           subtitle: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "www.example.com$index ",
+                                                site.search.link,
+                                                maxLines: 1,
                                                 style: const TextStyle(
-                                                    color: Colors.red),
+                                                    color: Colors.red,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
                                               ),
                                               Text(
-                                                "The mabjn jbadsdhds udbsud shdush dhsidh ijshid sihd ishdih sid ish idhsihdishidhishd dihsihd  dhsih$index ",
+                                                site.search.snippet,
                                                 maxLines: 3,
                                                 style: const TextStyle(
                                                     overflow:
@@ -190,13 +227,19 @@ class _HomePageState extends State<HomePage> {
                                         );
                                       }));
                                 } else {
-                                  return Center(child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: const [
-                                      Icon(Icons.history,size: 30,),
-                                      Text('No searches found')
-                                    ],
-                                  ),);
+                                  return Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: const [
+                                        Icon(
+                                          Icons.history,
+                                          size: 30,
+                                        ),
+                                        Text('No searches found')
+                                      ],
+                                    ),
+                                  );
                                 }
                               })),
                     ],
@@ -214,13 +257,18 @@ class _HomePageState extends State<HomePage> {
                   height: 30,
                   width: 30,
                   child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>const Settings()));
+                      },
                       style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
                           shape: RoundedRectangleBorder(
                               side: const BorderSide(color: Colors.blue),
                               borderRadius: BorderRadius.circular(5))),
-                      child: const Icon(Icons.add)),
+                      child: const Icon(Icons.settings)),
                 )
               ],
             ),

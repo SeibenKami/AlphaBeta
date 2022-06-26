@@ -7,20 +7,20 @@ import 'package:lens/models/site_model.dart';
 import 'package:lens/screens/browser/browser.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class SiteView extends StatefulWidget {
-  const SiteView({Key? key, required this.search}) : super(key: key);
+class PrivateWebView extends StatefulWidget {
+  const PrivateWebView({Key? key, required this.search}) : super(key: key);
   final SearchModel search;
 
   @override
-  State<SiteView> createState() => _SiteViewState();
+  State<PrivateWebView> createState() => _PrivateWebViewState();
 }
 
-class _SiteViewState extends State<SiteView> {
+class _PrivateWebViewState extends State<PrivateWebView> {
   final TextEditingController searchController = TextEditingController();
   Completer<WebViewController> webController = Completer<WebViewController>();
   DBProvider dbProvider = DBProvider();
   bool isLoading = true;
-  bool isFavorite = false;
+
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _SiteViewState extends State<SiteView> {
       },
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.black,
             elevation: 0,
             centerTitle: true,
             leading: TextButton(
@@ -79,16 +79,10 @@ class _SiteViewState extends State<SiteView> {
             ),
             actions: [
               IconButton(
-                onPressed: () {
-                  dbProvider.updateSiteValue(
-                      'isFavorite', isFavorite ? 1 : 0, widget.search.id);
-                  setState(() {
-                    isFavorite=!isFavorite;
-                  });
-                },
-                icon: Icon(
-                  isFavorite ? Icons.bookmark : Icons.bookmark_add_outlined,
-                  color: isFavorite ? Colors.red : Colors.white,
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.private_connectivity,
+                  color: Colors.white,
                   size: 27,
                 ),
               )
@@ -101,10 +95,6 @@ class _SiteViewState extends State<SiteView> {
                 initialUrl: widget.search.link,
                 javascriptMode: JavascriptMode.unrestricted,
                 onPageFinished: (finish) {
-                  dbProvider.addSite(Site(
-                      search: widget.search,
-                      searchDate: DateTime.now(),
-                      isFavorite: false));
                   setState(() {
                     isLoading = false;
                   });
@@ -116,7 +106,7 @@ class _SiteViewState extends State<SiteView> {
               isLoading
                   ? const LinearProgressIndicator(
                       color: Colors.red,
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.black,
                     )
                   : Container(),
             ],
