@@ -1,31 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:lens/models/search_model.dart';
 import 'package:lens/screens/browser/browser.dart';
-import 'package:lens/screens/search_page/components/search_cards.dart';
-import 'package:lens/services/api_service.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key, required this.keyword}) : super(key: key);
-  final String keyword;
+import '../../../models/search_model.dart';
+import '../../../services/api_service.dart';
+import '../../search_page/components/search_cards.dart';
+
+class PrivateBrowsing extends StatefulWidget {
+  const PrivateBrowsing({Key? key}) : super(key: key);
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<PrivateBrowsing> createState() => _PrivateBrowsingState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _PrivateBrowsingState extends State<PrivateBrowsing> {
   final TextEditingController searchController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    searchController.text = widget.keyword;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.black,
         elevation: 0,
         centerTitle: true,
         leading: TextButton(
@@ -76,11 +69,13 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.menu,
-                size: 28,
-              ))
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.private_connectivity,
+                  color: Colors.white,
+                  size: 29,
+                ),
+              )
         ],
       ),
       body: SafeArea(
@@ -92,7 +87,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 colors: [
-                  Colors.green.withOpacity(0),
+                 
                   Colors.green.withOpacity(0.1),
                   Colors.green.withOpacity(0.4),
                 ],
@@ -112,9 +107,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            "$engineTitle",
+                            "$engineTitle - Private Mode",
                             style: const TextStyle(
-                                color: Colors.green,
+                                color: Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'fantasy',
                                 fontSize: 25),
@@ -136,17 +131,15 @@ class _SearchScreenState extends State<SearchScreen> {
                                   link: searched.link,
                                   snippet: searched.snippet,
                                   thumbnailTitle: searched.thumbnailTitle,
-                                ));
+
+                                ),
+                                isPrivate: true,);
                               }),
                         ),
                       ],
                     );
                   } else {
-                    return const Center(
-                        child: Text(
-                      "Searcing ...",
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                    ));
+                    return Container();
                   }
                 },
               ),

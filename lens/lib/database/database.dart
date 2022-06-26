@@ -66,7 +66,7 @@ class DBProvider {
     );
   }
 
-  Future<Site> readSite(int id) async {
+  Future<Site> readSite(String id) async {
     final _db = await database;
     final map = await _db.query(
       "Sites",
@@ -81,7 +81,7 @@ class DBProvider {
     }
   }
 
-  Future<int> updateSiteValue(String key, dynamic value, int id) async {
+  Future<int> updateSiteValue(String key, dynamic value, String id) async {
     final _db = await database;
     return _db.update(
       "Sites",

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lens/screens/settings/bookmarks/bookmarks.dart';
+import 'package:lens/screens/settings/history/history.dart';
+import 'package:lens/screens/settings/private_browsing/private_browsing.dart';
 import '../../components/item_card.dart';
 
 class Settings extends StatefulWidget {
@@ -15,13 +18,13 @@ class _SettingsState extends State<Settings> {
       size: 20.0,
     );
   }
-  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
+        elevation: 0,
         title: const Text(
           'Settings',
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -37,8 +40,8 @@ class _SettingsState extends State<Settings> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      padding:const EdgeInsets.only(left: 16),
-                      child:const Text(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: const Text(
                         'App Settings',
                         style: TextStyle(
                           fontSize: 12,
@@ -53,7 +56,7 @@ class _SettingsState extends State<Settings> {
                     ItemCard(
                       title: 'New Tab',
                       color: Colors.black,
-                      rightWidget:const Icon(Icons.add),
+                      rightWidget: const Icon(Icons.add),
                       callback: () {
                         print('Tap Settings Item 01');
                       },
@@ -63,13 +66,14 @@ class _SettingsState extends State<Settings> {
                       color: Colors.black,
                       rightWidget: const Icon(Icons.privacy_tip),
                       callback: () {
-                        print('Tap Settings Item 01');
+                         Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => const PrivateBrowsing()));
                       },
                     ),
                     ItemCard(
                       title: 'Dark Theme',
                       color: Colors.black,
-                      rightWidget:const Icon(Icons.dark_mode),
+                      rightWidget: const Icon(Icons.dark_mode),
                       callback: () {
                         print('Tap Settings Item 06');
                       },
@@ -78,7 +82,7 @@ class _SettingsState extends State<Settings> {
                       height: 40,
                     ),
                     Container(
-                      padding:const EdgeInsets.only(left: 16),
+                      padding: const EdgeInsets.only(left: 16),
                       child: const Text(
                         'Others',
                         style: TextStyle(
@@ -97,7 +101,8 @@ class _SettingsState extends State<Settings> {
                       color: Colors.grey.shade900,
                       rightWidget: _arrow(),
                       callback: () {
-                        print('Tap Settings Item 02');
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => const History()));
                       },
                     ),
                     ItemCard(
@@ -105,7 +110,8 @@ class _SettingsState extends State<Settings> {
                       color: Colors.grey.shade900,
                       rightWidget: _arrow(),
                       callback: () {
-                        print('Tap Settings Item 03');
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => const BookMarks()));
                       },
                     ),
                     const SizedBox(
