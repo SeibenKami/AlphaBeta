@@ -42,7 +42,6 @@ class _PrivateBrowsingState extends State<PrivateBrowsing> {
                 contentPadding: const EdgeInsets.only(left: 12),
                 fillColor: Colors.white,
                 filled: true,
-                
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                     borderSide: const BorderSide(color: Colors.greenAccent)),
@@ -71,13 +70,13 @@ class _PrivateBrowsingState extends State<PrivateBrowsing> {
         ),
         actions: [
           IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.private_connectivity,
-                  color: Colors.white,
-                  size: 29,
-                ),
-              )
+            onPressed: () {},
+            icon: const Icon(
+              Icons.private_connectivity,
+              color: Colors.white,
+              size: 29,
+            ),
+          )
         ],
       ),
       body: SafeArea(
@@ -89,7 +88,6 @@ class _PrivateBrowsingState extends State<PrivateBrowsing> {
                   gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 colors: [
-                 
                   Colors.green.withOpacity(0.1),
                   Colors.green.withOpacity(0.4),
                 ],
@@ -124,22 +122,25 @@ class _PrivateBrowsingState extends State<PrivateBrowsing> {
                                 SearchModel searched =
                                     SearchModel.fromJson(sites[index]);
                                 return SeacrhCard(
-                                    search: SearchModel(
-                                  title: searched.title,
-                                  cseImage: searched.cseImage,
-                                  cseThumbnail: searched.cseThumbnail,
-                                  displaylink: searched.displaylink,
-                                  id: searched.id,
-                                  link: searched.link,
-                                  snippet: searched.snippet,
-                                  thumbnailTitle: searched.thumbnailTitle,
-
-                                ),
-                                isPrivate: true,);
+                                  search: SearchModel(
+                                    title: searched.title,
+                                    cseImage: searched.cseImage,
+                                    cseThumbnail: searched.cseThumbnail,
+                                    displaylink: searched.displaylink,
+                                    id: searched.id,
+                                    link: searched.link,
+                                    snippet: searched.snippet,
+                                    thumbnailTitle: searched.thumbnailTitle,
+                                  ),
+                                  isPrivate: true,
+                                );
                               }),
                         ),
                       ],
                     );
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator(color: Colors.green,));
                   } else {
                     return Container();
                   }

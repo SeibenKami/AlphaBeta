@@ -111,16 +111,28 @@ class _SearchScreenState extends State<SearchScreen> {
                     final sites = results['items'];
                     return Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "$engineTitle",
-                            style: const TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'fantasy',
-                                fontSize: 25),
-                          ),
+                        Row(
+                          children: [
+                            Container(
+                              height: 30,
+                              width: 30,
+                              //color: Colors.blue,
+                              child: Image(
+                                  image: AssetImage(
+                                      "assets/images/placeholder.png")),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "$engineTitle",
+                                style: const TextStyle(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'fantasy',
+                                    fontSize: 25),
+                              ),
+                            ),
+                          ],
                         ),
                         Expanded(
                           child: ListView.builder(
@@ -143,11 +155,15 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                       ],
                     );
-                  } else {
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator(color: Colors.green,));
+                  } 
+                   else {
                     return const Center(
                         child: Text(
                       "Searcing ...",
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                      style: TextStyle(fontSize: 18,),
                     ));
                   }
                 },
