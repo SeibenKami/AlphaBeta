@@ -44,6 +44,7 @@ class _SearchScreenState extends State<SearchScreen> {
           height: 38,
           child: TextFormField(
             controller: searchController,
+            style: TextStyle(color: Colors.black),
             decoration: InputDecoration(
                 contentPadding: const EdgeInsets.only(left: 12),
                 fillColor: Colors.white,

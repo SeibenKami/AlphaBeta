@@ -57,6 +57,7 @@ class _SiteViewState extends State<SiteView> {
               child: TextFormField(
                 controller: searchController,
                 readOnly: true,
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.only(left: 12),
                   fillColor: Colors.white,

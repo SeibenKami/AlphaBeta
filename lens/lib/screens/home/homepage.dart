@@ -83,7 +83,8 @@ class _HomePageState extends State<HomePage> {
                                   fontSize: 30,
                                   fontFamily: 'fantasy',
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black),
+                                  // color: Colors.black
+                                  ),
                             ),
                           )
                         ],
@@ -175,9 +176,9 @@ class _HomePageState extends State<HomePage> {
                               'see all >>',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black54,
+                                  color: Colors.orange,
                                   fontSize: 16,
-                                  decoration: TextDecoration.underline),
+                                ),
                             ),
                           ),
                         ],

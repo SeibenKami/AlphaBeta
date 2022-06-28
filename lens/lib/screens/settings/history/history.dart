@@ -54,7 +54,7 @@ class _HistoryState extends State<History> {
             return const Center(
                 child: Text(
               " No search history",
-              style: TextStyle(fontSize: 18, color: Colors.white),
+              style: TextStyle(fontSize: 18),
             ));
           }
         },

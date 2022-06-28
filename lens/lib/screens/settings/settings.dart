@@ -66,15 +66,7 @@ class _SettingsState extends State<Settings> {
                     //     print('Tap Settings Item 01');
                     //   },
                     // ),
-                    // ItemCard(
-                    //   title: 'Private Search',
-                    //   color: Colors.black,
-                    //   rightWidget: const Icon(Icons.privacy_tip),
-                    //   callback: () {
-                    //      Navigator.push(context,
-                    //         MaterialPageRoute(builder: (context) => const PrivateBrowsing()));
-                    //   },
-                    // ),
+                   
                     ItemCard(
                       title:
                           themeChange.darkTheme ? 'Dark Theme' : 'Light Theme',
@@ -88,6 +80,7 @@ class _SettingsState extends State<Settings> {
                         log('Tap Settings Item 06');
                       },
                     ),
+                     
                     const SizedBox(
                       height: 40,
                     ),
@@ -126,6 +119,15 @@ class _SettingsState extends State<Settings> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const BookMarks()));
+                      },
+                    ),
+                    ItemCard(
+                      title: 'Private Search',
+                      color: Colors.black,
+                      rightWidget: const Icon(Icons.privacy_tip),
+                      callback: () {
+                         Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => const PrivateBrowsing()));
                       },
                     ),
                     const SizedBox(

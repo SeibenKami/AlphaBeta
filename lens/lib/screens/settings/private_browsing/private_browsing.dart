@@ -37,10 +37,12 @@ class _PrivateBrowsingState extends State<PrivateBrowsing> {
           height: 38,
           child: TextFormField(
             controller: searchController,
+            style: TextStyle(color: Colors.black),
             decoration: InputDecoration(
                 contentPadding: const EdgeInsets.only(left: 12),
                 fillColor: Colors.white,
                 filled: true,
+                
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                     borderSide: const BorderSide(color: Colors.greenAccent)),

@@ -57,10 +57,12 @@ class _PrivateWebViewState extends State<PrivateWebView> {
               child: TextFormField(
                 controller: searchController,
                 readOnly: true,
+                style: TextStyle(color: Colors.black),
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.only(left: 12),
                   fillColor: Colors.white,
                   filled: true,
+                  
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                       borderSide: const BorderSide(color: Colors.greenAccent)),
