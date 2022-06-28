@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:lens/screens/settings/bookmarks/bookmarks.dart';
 import 'package:lens/screens/settings/history/history.dart';
 import 'package:lens/screens/settings/private_browsing/private_browsing.dart';
+import 'package:provider/provider.dart';
 import '../../components/item_card.dart';
+import '../../providers/theme_provider.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -21,6 +25,7 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
@@ -53,29 +58,34 @@ class _SettingsState extends State<Settings> {
                     const SizedBox(
                       height: 10,
                     ),
+                    // ItemCard(
+                    //   title: 'New Tab',
+                    //   color: Colors.black,
+                    //   rightWidget: const Icon(Icons.add),
+                    //   callback: () {
+                    //     print('Tap Settings Item 01');
+                    //   },
+                    // ),
+                    // ItemCard(
+                    //   title: 'Private Search',
+                    //   color: Colors.black,
+                    //   rightWidget: const Icon(Icons.privacy_tip),
+                    //   callback: () {
+                    //      Navigator.push(context,
+                    //         MaterialPageRoute(builder: (context) => const PrivateBrowsing()));
+                    //   },
+                    // ),
                     ItemCard(
-                      title: 'New Tab',
+                      title:
+                          themeChange.darkTheme ? 'Dark Theme' : 'Light Theme',
                       color: Colors.black,
-                      rightWidget: const Icon(Icons.add),
+                      rightWidget: Checkbox(
+                          value: themeChange.darkTheme,
+                          onChanged: (bool? value) {
+                            themeChange.darkTheme = value!;
+                          }),
                       callback: () {
-                        print('Tap Settings Item 01');
-                      },
-                    ),
-                    ItemCard(
-                      title: 'Private Search',
-                      color: Colors.black,
-                      rightWidget: const Icon(Icons.privacy_tip),
-                      callback: () {
-                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => const PrivateBrowsing()));
-                      },
-                    ),
-                    ItemCard(
-                      title: 'Dark Theme',
-                      color: Colors.black,
-                      rightWidget: const Icon(Icons.dark_mode),
-                      callback: () {
-                        print('Tap Settings Item 06');
+                        log('Tap Settings Item 06');
                       },
                     ),
                     const SizedBox(
@@ -101,8 +111,10 @@ class _SettingsState extends State<Settings> {
                       color: Colors.grey.shade900,
                       rightWidget: _arrow(),
                       callback: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => const History()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const History()));
                       },
                     ),
                     ItemCard(
@@ -110,8 +122,10 @@ class _SettingsState extends State<Settings> {
                       color: Colors.grey.shade900,
                       rightWidget: _arrow(),
                       callback: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => const BookMarks()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const BookMarks()));
                       },
                     ),
                     const SizedBox(
@@ -133,6 +147,9 @@ class _SettingsState extends State<Settings> {
                     const SizedBox(
                       height: 200,
                     ),
+                    const Center(
+                      child: Text('AlphaBeta'),
+                    )
                   ],
                 ),
               ),

@@ -69,7 +69,10 @@ class _HomePageState extends State<HomePage> {
                             child: Container(
                               height: 50,
                               width: 50,
-                              color: Colors.blue,
+                              //color: Colors.blue,
+                              child: Image(
+                                  image: AssetImage(
+                                      "assets/images/placeholder.png")),
                             ),
                           ),
                           const Padding(
@@ -123,7 +126,8 @@ class _HomePageState extends State<HomePage> {
                             startSearch(searchController.text);
                           },
                           style: TextButton.styleFrom(
-                              backgroundColor: Colors.blue,
+                              backgroundColor:
+                                  Color.fromARGB(255, 13, 202, 168),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15))),
                           child: const Padding(
@@ -259,9 +263,9 @@ class _HomePageState extends State<HomePage> {
                   child: TextButton(
                       onPressed: () {
                         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>const Settings()));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Settings()));
                       },
                       style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,

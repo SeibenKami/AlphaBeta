@@ -75,12 +75,13 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
         actions: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.menu,
-                size: 28,
-              ))
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.menu,
+              size: 28,
+            ),
+          )
         ],
       ),
       body: SafeArea(

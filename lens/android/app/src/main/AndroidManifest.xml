@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.lens">
    <application
-        android:label="lens"
+        android:label="Lens"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
