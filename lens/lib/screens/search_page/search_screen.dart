@@ -110,8 +110,10 @@ class _SearchScreenState extends State<SearchScreen> {
                     final engineTitle = results!["context"]['title'];
                     final sites = results['items'];
                     return Column(
+                    
                       children: [
                         Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
                               height: 30,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lens/models/search_model.dart';
 import 'package:lens/screens/settings/private_browsing/private_siteview.dart';
 import 'package:lens/screens/site/site_web_view.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 
 class SeacrhCard extends StatelessWidget {
   const SeacrhCard({
@@ -50,8 +52,8 @@ class SeacrhCard extends StatelessWidget {
               Row(
                 children: [
                   search.cseThumbnail.isNotEmpty
-                      ? Image.network(
-                          search.cseThumbnail,
+                      ? CachedNetworkImage(
+                          imageUrl: search.cseThumbnail,
                           height: 30,
                           width: 30,
                           fit: BoxFit.fill,
