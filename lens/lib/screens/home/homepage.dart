@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lens/database/database.dart';
 import 'package:lens/models/site_model.dart';
+import 'package:lens/providers/theme_provider.dart';
 import 'package:lens/screens/search_page/search_screen.dart';
 import 'package:lens/screens/settings/history/history.dart';
 import 'package:lens/screens/settings/settings.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -31,6 +33,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+     final themeChange = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
         body: SafeArea(
       child: Stack(
@@ -271,9 +274,9 @@ class _HomePageState extends State<HomePage> {
                       style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
                           shape: RoundedRectangleBorder(
-                              side: const BorderSide(color: Colors.blue),
+                              side:  BorderSide(color: themeChange.darkTheme?Colors.white:Colors.black),
                               borderRadius: BorderRadius.circular(5))),
-                      child: const Icon(Icons.settings)),
+                      child: Icon(Icons.settings,color: themeChange.darkTheme?Colors.white:Colors.black,)),
                 )
               ],
             ),
