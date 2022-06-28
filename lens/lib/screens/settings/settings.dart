@@ -66,21 +66,30 @@ class _SettingsState extends State<Settings> {
                     //     print('Tap Settings Item 01');
                     //   },
                     // ),
-                   
+
                     ItemCard(
                       title:
                           themeChange.darkTheme ? 'Dark Theme' : 'Light Theme',
                       color: Colors.black,
-                      rightWidget: Checkbox(
-                          value: themeChange.darkTheme,
-                          onChanged: (bool? value) {
-                            themeChange.darkTheme = value!;
-                          }),
+                      rightWidget: SizedBox(
+                        width: 30,
+                        child: Checkbox(
+                            value: themeChange.darkTheme,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(3),
+                                side: const BorderSide(
+                                    color: Colors.black12, width: 0.1)),
+                            side: const BorderSide(
+                                color: Colors.black38, width: 1),
+                            onChanged: (bool? value) {
+                              themeChange.darkTheme = value!;
+                            }),
+                      ),
                       callback: () {
                         log('Tap Settings Item 06');
                       },
                     ),
-                     
+
                     const SizedBox(
                       height: 40,
                     ),
@@ -126,15 +135,17 @@ class _SettingsState extends State<Settings> {
                       color: Colors.black,
                       rightWidget: const Icon(Icons.privacy_tip),
                       callback: () {
-                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => const PrivateBrowsing()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const PrivateBrowsing()));
                       },
                     ),
                     const SizedBox(
                       height: 60,
                     ),
                     ItemCard(
-                      title: 'version',
+                      title: 'Version',
                       color: Colors.grey.shade900,
                       rightWidget: const Center(
                         child: Text('1.0.0',
@@ -146,12 +157,19 @@ class _SettingsState extends State<Settings> {
                       ),
                       callback: () {},
                     ),
-                    const SizedBox(
-                      height: 200,
+                    ItemCard(
+                      title: 'Developers',
+                      color: Colors.grey.shade900,
+                      rightWidget: const Center(
+                        child: Text('AlphaBeta',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                            )),
+                      ),
+                      callback: () {},
                     ),
-                    const Center(
-                      child: Text('AlphaBeta'),
-                    )
                   ],
                 ),
               ),
