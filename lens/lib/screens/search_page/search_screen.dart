@@ -35,6 +35,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     var network = _source.keys.toList()[0];
     return Scaffold(
+      ////////////////// App Bar ////////////////////////
       appBar: AppBar(
         backgroundColor: Colors.green,
         elevation: 0,
@@ -98,6 +99,7 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       body: SafeArea(
         child: network == ConnectivityResult.none
+        //////////////////// GIF if no network /////////////////
             ? SizedBox(
                 child: Center(
                     child: Image.asset(
