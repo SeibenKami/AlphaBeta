@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:lens/my_connectivity.dart';
 import 'package:lens/screens/browser/browser.dart';
@@ -19,6 +18,10 @@ class _PrivateBrowsingState extends State<PrivateBrowsing> {
   final TextEditingController searchController = TextEditingController();
   Map _source = {ConnectivityResult.none: false};
   final MyConnectivity _connectivity = MyConnectivity.instance;
+  int totalsearches = 0;
+  int startIndex = 1;
+  int currentPage = 1;
+  int totalPages = 0;
 
   @override
   void initState() {
@@ -72,6 +75,8 @@ class _PrivateBrowsingState extends State<PrivateBrowsing> {
                 suffixIcon: IconButton(
                   onPressed: () {
                     setState(() {});
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Search loading...")));
                   },
                   icon: const Icon(
                     Icons.search,
@@ -82,6 +87,8 @@ class _PrivateBrowsingState extends State<PrivateBrowsing> {
             onFieldSubmitted: (value) {
               searchController.text = value;
               setState(() {});
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Search loading...")));
             },
           ),
         ),
@@ -101,11 +108,11 @@ class _PrivateBrowsingState extends State<PrivateBrowsing> {
             ? SizedBox(
                 child: Center(
                     child: Image.asset(
-                      'assets/gif/conn.gif',
-                      height: 220,
-                      width: 220,
-                      fit: BoxFit.cover,
-                    )),
+                  'assets/gif/conn.gif',
+                  height: 220,
+                  width: 220,
+                  fit: BoxFit.cover,
+                )),
               )
             : Stack(
                 children: [
@@ -123,23 +130,102 @@ class _PrivateBrowsingState extends State<PrivateBrowsing> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height,
                     child: FutureBuilder<Map<String, dynamic>>(
-                      future: ApiService().getSearches(searchController.text),
+                      future: ApiService()
+                          .getSearches(searchController.text, startIndex),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           final results = snapshot.data;
                           final engineTitle = results!["context"]['title'];
                           final sites = results['items'];
+                          totalsearches = int.parse(
+                              results['queries']['request'][0]['totalResults']);
+                          totalPages = (totalsearches ~/ 10);
                           return Column(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "$engineTitle - Private Mode",
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'fantasy',
-                                      fontSize: 25),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    // AppIcon
+                                    Row(
+                                      children: [
+                                        Container(
+                                          height: 30,
+                                          width: 30,
+                                          //color: Colors.blue,
+                                          child: Image(
+                                              image: AssetImage(
+                                                  "assets/images/placeholder.png")),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "$engineTitle",
+                                            style: const TextStyle(
+                                                color: Colors.green,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'fantasy',
+                                                fontSize: 25),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        currentPage == 1
+                                            ? Container()
+                                            : SizedBox(
+                                                width: 30,
+                                                child: TextButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        startIndex =
+                                                            startIndex - 10;
+                                                        currentPage--;
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                const SnackBar(
+                                                                    content: Text(
+                                                                        "Loading previous page...")));
+                                                      });
+                                                    },
+                                                    child: Icon(
+                                                        Icons.arrow_back_ios)),
+                                              ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        currentPage == totalPages
+                                            ? Container()
+                                            : SizedBox(
+                                                width: 30,
+                                                child: TextButton(
+                                                    onPressed: () {
+                                                      if (currentPage <
+                                                          totalPages) {
+                                                        setState(() {
+                                                          startIndex =
+                                                              startIndex + 10;
+                                                          currentPage++;
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                                  const SnackBar(
+                                                                      content: Text(
+                                                                          "Loading next page...")));
+                                                        });
+                                                      }
+                                                    },
+                                                    child: Icon(Icons
+                                                        .arrow_forward_ios)),
+                                              ),
+                                      ],
+                                    )
+                                  ],
                                 ),
                               ),
                               ////////////////// List of searched sites ///////////////////////////
