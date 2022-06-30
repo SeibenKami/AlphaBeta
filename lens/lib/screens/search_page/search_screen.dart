@@ -95,6 +95,7 @@ class _SearchScreenState extends State<SearchScreen> {
             padding: const EdgeInsets.all(8.0),
             child: IconButton(
               onPressed: () {
+                 ////////////////// Menu List ///////////////////////////
                 showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -222,14 +223,14 @@ class _SearchScreenState extends State<SearchScreen> {
     return Align(
         alignment: Alignment.topRight,
         child: SizedBox(
-          width: 200,
-          height: 100,
+          width: 250,
+           height: 150,
           child: Material(
             child: ListView(
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: ((context) => const History())));
@@ -243,7 +244,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
                 InkWell(
                     onTap: () async {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const BookMarks()));
@@ -256,7 +257,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     )),
                 InkWell(
                     onTap: () async {
-                      Navigator.pushReplacement(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const PrivateBrowsing()));
