@@ -224,7 +224,7 @@ class _SearchScreenState extends State<SearchScreen> {
         alignment: Alignment.topRight,
         child: SizedBox(
           width: 250,
-           height: 150,
+           height: 180,
           child: Material(
             child: ListView(
               children: [
