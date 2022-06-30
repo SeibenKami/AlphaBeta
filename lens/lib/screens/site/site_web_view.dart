@@ -100,8 +100,8 @@ class _SiteViewState extends State<SiteView> {
             children: [
               WebView(
                 initialUrl: widget.search.link,
-                javascriptMode: JavascriptMode.unrestricted,
-                onPageFinished: (finish) {
+                javascriptMode: JavascriptMode.unrestricted, 
+                onPageStarted: (finish) {
                   dbProvider.addSite(Site(
                       search: widget.search,
                       searchDate: DateTime.now(),

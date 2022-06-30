@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:lens/models/search_model.dart';
+import 'package:lens/my_connectivity.dart';
 import 'package:lens/screens/browser/browser.dart';
 import 'package:lens/screens/search_page/components/search_cards.dart';
 import 'package:lens/services/api_service.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key, required this.keyword}) : super(key: key);
@@ -14,15 +18,22 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController searchController = TextEditingController();
+  Map _source = {ConnectivityResult.none: false};
+  final MyConnectivity _connectivity = MyConnectivity.instance;
 
   @override
   void initState() {
     super.initState();
     searchController.text = widget.keyword;
+    _connectivity.initialise();
+    _connectivity.myStream.listen((source) {
+      setState(() => _source = source);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    var network = _source.keys.toList()[0];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
@@ -86,94 +97,108 @@ class _SearchScreenState extends State<SearchScreen> {
         ],
       ),
       body: SafeArea(
-        child: Stack(
-          children: [
-            //BAckground
-            Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                colors: [
-                  Colors.green.withOpacity(0),
-                  Colors.green.withOpacity(0.1),
-                  Colors.green.withOpacity(0.4),
-                ],
-              )),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: FutureBuilder<Map<String, dynamic>>(
-                future: ApiService().getSearches(searchController.text),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    final results = snapshot.data;
-                    final engineTitle = results!["context"]['title'];
-                    final sites = results['items'];
-                    return Column(
-                    
-                      children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 30,
-                              width: 30,
-                              //color: Colors.blue,
-                              child: Image(
-                                  image: AssetImage(
-                                      "assets/images/placeholder.png")),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "$engineTitle",
-                                style: const TextStyle(
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'fantasy',
-                                    fontSize: 25),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Expanded(
-                          child: ListView.builder(
-                              itemCount: sites.length,
-                              itemBuilder: (context, index) {
-                                SearchModel searched =
-                                    SearchModel.fromJson(sites[index]);
-                                return SeacrhCard(
-                                    search: SearchModel(
-                                  title: searched.title,
-                                  cseImage: searched.cseImage,
-                                  cseThumbnail: searched.cseThumbnail,
-                                  displaylink: searched.displaylink,
-                                  id: searched.id,
-                                  link: searched.link,
-                                  snippet: searched.snippet,
-                                  thumbnailTitle: searched.thumbnailTitle,
-                                ));
-                              }),
-                        ),
+        child: network == ConnectivityResult.none
+            ? SizedBox(
+                child: Center(
+                    child: Image.asset(
+                      'assets/gif/conn.gif',
+                      height: 220,
+                      width: 220,
+                      fit: BoxFit.cover,
+                    )),
+              )
+            : Stack(
+                children: [
+                  //BAckground
+                  Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      colors: [
+                        Colors.green.withOpacity(0),
+                        Colors.green.withOpacity(0.1),
+                        Colors.green.withOpacity(0.4),
                       ],
-                    );
-                  } else if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator(color: Colors.green,));
-                  } 
-                   else {
-                    return const Center(
-                        child: Text(
-                      "Searcing ...",
-                      style: TextStyle(fontSize: 18,),
-                    ));
-                  }
-                },
+                    )),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: FutureBuilder<Map<String, dynamic>>(
+                      future: ApiService().getSearches(searchController.text),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final results = snapshot.data;
+                          final engineTitle = results!["context"]['title'];
+                          final sites = results['items'];
+                          return Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 30,
+                                    width: 30,
+                                    //color: Colors.blue,
+                                    child: Image(
+                                        image: AssetImage(
+                                            "assets/images/placeholder.png")),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "$engineTitle",
+                                      style: const TextStyle(
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'fantasy',
+                                          fontSize: 25),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                    itemCount: sites.length,
+                                    itemBuilder: (context, index) {
+                                      SearchModel searched =
+                                          SearchModel.fromJson(sites[index]);
+                                      return SeacrhCard(
+                                          search: SearchModel(
+                                        title: searched.title,
+                                        cseImage: searched.cseImage,
+                                        cseThumbnail: searched.cseThumbnail,
+                                        displaylink: searched.displaylink,
+                                        id: searched.id,
+                                        link: searched.link,
+                                        snippet: searched.snippet,
+                                        thumbnailTitle: searched.thumbnailTitle,
+                                      ));
+                                    }),
+                              ),
+                            ],
+                          );
+                        } else if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                              child: CircularProgressIndicator(
+                            color: Colors.green,
+                          ));
+                        } else {
+                          return const Center(
+                              child: Text(
+                            "No data found",
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ));
+                        }
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }
+
 }

@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:lens/my_connectivity.dart';
 import 'package:lens/screens/browser/browser.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 import '../../../models/search_model.dart';
 import '../../../services/api_service.dart';
@@ -14,8 +17,20 @@ class PrivateBrowsing extends StatefulWidget {
 
 class _PrivateBrowsingState extends State<PrivateBrowsing> {
   final TextEditingController searchController = TextEditingController();
+  Map _source = {ConnectivityResult.none: false};
+  final MyConnectivity _connectivity = MyConnectivity.instance;
+  @override
+  void initState() {
+    // TODO: implement initState
+    _connectivity.initialise();
+    _connectivity.myStream.listen((source) {
+      setState(() => _source = source);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    var network = _source.keys.toList()[0];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -80,75 +95,89 @@ class _PrivateBrowsingState extends State<PrivateBrowsing> {
         ],
       ),
       body: SafeArea(
-        child: Stack(
-          children: [
-            //BAckground
-            Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                colors: [
-                  Colors.green.withOpacity(0.1),
-                  Colors.green.withOpacity(0.4),
-                ],
-              )),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: FutureBuilder<Map<String, dynamic>>(
-                future: ApiService().getSearches(searchController.text),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    final results = snapshot.data;
-                    final engineTitle = results!["context"]['title'];
-                    final sites = results['items'];
-                    return Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "$engineTitle - Private Mode",
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'fantasy',
-                                fontSize: 25),
-                          ),
-                        ),
-                        Expanded(
-                          child: ListView.builder(
-                              itemCount: sites.length,
-                              itemBuilder: (context, index) {
-                                SearchModel searched =
-                                    SearchModel.fromJson(sites[index]);
-                                return SeacrhCard(
-                                  search: SearchModel(
-                                    title: searched.title,
-                                    cseImage: searched.cseImage,
-                                    cseThumbnail: searched.cseThumbnail,
-                                    displaylink: searched.displaylink,
-                                    id: searched.id,
-                                    link: searched.link,
-                                    snippet: searched.snippet,
-                                    thumbnailTitle: searched.thumbnailTitle,
-                                  ),
-                                  isPrivate: true,
-                                );
-                              }),
-                        ),
+        child: network == ConnectivityResult.none
+            ? SizedBox(
+                child: Center(
+                    child: Image.asset(
+                      'assets/gif/conn.gif',
+                      height: 220,
+                      width: 220,
+                      fit: BoxFit.cover,
+                    )),
+              )
+            : Stack(
+                children: [
+                  //BAckground
+                  Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      colors: [
+                        Colors.green.withOpacity(0.1),
+                        Colors.green.withOpacity(0.4),
                       ],
-                    );
-                  } else if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator(color: Colors.green,));
-                  } else {
-                    return Container();
-                  }
-                },
+                    )),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: FutureBuilder<Map<String, dynamic>>(
+                      future: ApiService().getSearches(searchController.text),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          final results = snapshot.data;
+                          final engineTitle = results!["context"]['title'];
+                          final sites = results['items'];
+                          return Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "$engineTitle - Private Mode",
+                                  style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'fantasy',
+                                      fontSize: 25),
+                                ),
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                    itemCount: sites.length,
+                                    itemBuilder: (context, index) {
+                                      SearchModel searched =
+                                          SearchModel.fromJson(sites[index]);
+                                      return SeacrhCard(
+                                        search: SearchModel(
+                                          title: searched.title,
+                                          cseImage: searched.cseImage,
+                                          cseThumbnail: searched.cseThumbnail,
+                                          displaylink: searched.displaylink,
+                                          id: searched.id,
+                                          link: searched.link,
+                                          snippet: searched.snippet,
+                                          thumbnailTitle:
+                                              searched.thumbnailTitle,
+                                        ),
+                                        isPrivate: true,
+                                      );
+                                    }),
+                              ),
+                            ],
+                          );
+                        } else if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                              child: CircularProgressIndicator(
+                            color: Colors.green,
+                          ));
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
       ),
     );
   }
