@@ -21,6 +21,7 @@ class _SiteViewState extends State<SiteView> {
   DBProvider dbProvider = DBProvider();
   bool isLoading = true;
   bool isFavorite = false;
+  bool siteLoaded = false;
 
   @override
   void initState() {
@@ -31,7 +32,7 @@ class _SiteViewState extends State<SiteView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       ////////////////////////App Bar ////////////////////
+        ////////////////////////App Bar ////////////////////
         appBar: AppBar(
           backgroundColor: Colors.green,
           elevation: 0,
@@ -76,20 +77,29 @@ class _SiteViewState extends State<SiteView> {
             ),
           ),
           actions: [
-            IconButton(
-              onPressed: () {
-                dbProvider.updateSiteValue(
-                    'isFavorite', isFavorite ? 1 : 0, widget.search.id);
-                setState(() {
-                  isFavorite=!isFavorite;
-                });
-              },
-              icon: Icon(
-                isFavorite ? Icons.bookmark : Icons.bookmark_add_outlined,
-                color: isFavorite ? Colors.red : Colors.white,
-                size: 27,
-              ),
-            )
+            siteLoaded
+                ? IconButton(
+                    onPressed: () {
+                      dbProvider
+                          .updateSiteValue('isFavorite', isFavorite ? 0 : 1,
+                              widget.search.id)
+                          .then((value) {
+                        setState(() {
+                          isFavorite = !isFavorite;
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(isFavorite
+                                  ? "Added to bookmark"
+                                  : "Removed from bookmark")));
+                        });
+                      });
+                    },
+                    icon: Icon(
+                      isFavorite ? Icons.bookmark : Icons.bookmark_add_outlined,
+                      color: isFavorite ? Colors.red : Colors.white,
+                      size: 27,
+                    ),
+                  )
+                : SizedBox(width: 25,),
           ],
         ),
         body: SafeArea(
@@ -97,15 +107,18 @@ class _SiteViewState extends State<SiteView> {
           children: [
             WebView(
               initialUrl: widget.search.link,
-              javascriptMode: JavascriptMode.unrestricted, 
+              javascriptMode: JavascriptMode.unrestricted,
               onPageStarted: (finish) {
                 ////////////////////////Add site to database  ////////////////////
                 dbProvider.addSite(Site(
                     search: widget.search,
                     searchDate: DateTime.now(),
                     isFavorite: false));
+              },
+              onPageFinished: (finish){
                 setState(() {
-                  isLoading = false;
+                   isLoading = false;
+                  siteLoaded=true;
                 });
               },
               onWebViewCreated: (WebViewController webViewController) {
