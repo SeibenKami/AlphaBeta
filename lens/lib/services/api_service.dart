@@ -1,10 +1,6 @@
 import 'dart:convert';
-
 import 'dart:io';
-
 import 'package:http/http.dart' as http;
-
-import '../models/search_model.dart';
 
 class ApiService {
   static const _authority = "www.googleapis.com";

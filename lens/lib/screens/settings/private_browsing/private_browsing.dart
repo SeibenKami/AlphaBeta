@@ -1,4 +1,4 @@
-import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:lens/my_connectivity.dart';
 import 'package:lens/screens/browser/browser.dart';
@@ -19,9 +19,10 @@ class _PrivateBrowsingState extends State<PrivateBrowsing> {
   final TextEditingController searchController = TextEditingController();
   Map _source = {ConnectivityResult.none: false};
   final MyConnectivity _connectivity = MyConnectivity.instance;
+
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
     _connectivity.initialise();
     _connectivity.myStream.listen((source) {
       setState(() => _source = source);

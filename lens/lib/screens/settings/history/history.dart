@@ -21,13 +21,18 @@ class _HistoryState extends State<History> {
         elevation: 0,
         titleSpacing: 0,
         title: const Text(
-         'History',
-         style: TextStyle(fontWeight: FontWeight.bold),
+          'History',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.history,
+              color: Colors.white,
             ),
-        actions:const  [  Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Icon(Icons.history,color: Colors.white,),
-        ),],
+          ),
+        ],
       ),
       body: FutureBuilder<List<Site>>(
         future: dbProvider.readAllSites(),
@@ -50,6 +55,11 @@ class _HistoryState extends State<History> {
                     thumbnailTitle: site.search.thumbnailTitle,
                   ));
                 });
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+                child: CircularProgressIndicator(
+              color: Colors.green,
+            ));
           } else {
             return const Center(
                 child: Text(

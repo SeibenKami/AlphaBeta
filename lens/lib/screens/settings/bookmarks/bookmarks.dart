@@ -5,14 +5,14 @@ import 'package:lens/models/site_model.dart';
 import 'package:lens/screens/search_page/components/search_cards.dart';
 
 class BookMarks extends StatefulWidget {
-  const BookMarks({ Key? key }) : super(key: key);
+  const BookMarks({Key? key}) : super(key: key);
 
   @override
   State<BookMarks> createState() => _BookMarksState();
 }
 
 class _BookMarksState extends State<BookMarks> {
- DBProvider dbProvider = DBProvider();
+  DBProvider dbProvider = DBProvider();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,13 +21,18 @@ class _BookMarksState extends State<BookMarks> {
         elevation: 0,
         titleSpacing: 0,
         title: const Text(
-         'Bookmarks',
-         style: TextStyle(fontWeight: FontWeight.bold),
+          'Bookmarks',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.bookmark,
+              color: Colors.white,
             ),
-        actions:const  [  Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Icon(Icons.bookmark,color: Colors.white,),
-        ),],
+          ),
+        ],
       ),
       body: FutureBuilder<List<Site>>(
         future: dbProvider.readFavoriteSites(),
@@ -50,10 +55,15 @@ class _BookMarksState extends State<BookMarks> {
                     thumbnailTitle: site.search.thumbnailTitle,
                   ));
                 });
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+                child: CircularProgressIndicator(
+              color: Colors.green,
+            ));
           } else {
             return const Center(
                 child: Text(
-              " No search history",
+              " No bookmarks",
               style: TextStyle(fontSize: 18, color: Colors.white),
             ));
           }

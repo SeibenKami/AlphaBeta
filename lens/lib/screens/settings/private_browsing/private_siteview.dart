@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lens/database/database.dart';
 import 'package:lens/models/search_model.dart';
-import 'package:lens/models/site_model.dart';
 import 'package:lens/screens/browser/browser.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -24,7 +23,6 @@ class _PrivateWebViewState extends State<PrivateWebView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     searchController.text = widget.search.link;
   }
