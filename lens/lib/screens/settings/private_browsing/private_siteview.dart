@@ -52,6 +52,7 @@ class _PrivateWebViewState extends State<PrivateWebView> {
             titleSpacing: 0,
             title: SizedBox(
               height: 38,
+              //////////////////////// Search Form Feild ////////////////////
               child: TextFormField(
                 controller: searchController,
                 readOnly: true,

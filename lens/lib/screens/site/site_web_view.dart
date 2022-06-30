@@ -35,6 +35,7 @@ class _SiteViewState extends State<SiteView> {
         return true;
       },
       child: Scaffold(
+         ////////////////////////App Bar ////////////////////
           appBar: AppBar(
             backgroundColor: Colors.green,
             elevation: 0,
@@ -53,6 +54,7 @@ class _SiteViewState extends State<SiteView> {
             titleSpacing: 0,
             title: SizedBox(
               height: 38,
+              //////////////////////// Search Form Feild ////////////////////
               child: TextFormField(
                 controller: searchController,
                 readOnly: true,
@@ -101,6 +103,7 @@ class _SiteViewState extends State<SiteView> {
                 initialUrl: widget.search.link,
                 javascriptMode: JavascriptMode.unrestricted, 
                 onPageStarted: (finish) {
+                  ////////////////////////Add site to database  ////////////////////
                   dbProvider.addSite(Site(
                       search: widget.search,
                       searchDate: DateTime.now(),

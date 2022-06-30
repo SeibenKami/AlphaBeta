@@ -1,10 +1,11 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:lens/models/search_model.dart';
 import 'package:lens/my_connectivity.dart';
 import 'package:lens/screens/browser/browser.dart';
 import 'package:lens/screens/search_page/components/search_cards.dart';
+import 'package:lens/screens/settings/bookmarks/bookmarks.dart';
+import 'package:lens/screens/settings/history/history.dart';
+import 'package:lens/screens/settings/private_browsing/private_browsing.dart';
 import 'package:lens/services/api_service.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
@@ -20,6 +21,7 @@ class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController searchController = TextEditingController();
   Map _source = {ConnectivityResult.none: false};
   final MyConnectivity _connectivity = MyConnectivity.instance;
+  bool showMenu = false;
 
   @override
   void initState() {
@@ -52,6 +54,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
         titleSpacing: 0,
+        //////////////////////// Search Form Feild ////////////////////
         title: SizedBox(
           height: 38,
           child: TextFormField(
@@ -90,24 +93,35 @@ class _SearchScreenState extends State<SearchScreen> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.menu,
-              size: 28,
+            child: IconButton(
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Padding(
+                          padding: const EdgeInsets.only(top: 60, right: 10),
+                          child: menuItems());
+                    });
+              },
+              icon: Icon(
+                Icons.menu,
+                size: 28,
+              ),
             ),
           )
         ],
       ),
       body: SafeArea(
         child: network == ConnectivityResult.none
-        //////////////////// GIF if no network /////////////////
+            //////////////////// GIF if no network /////////////////
             ? SizedBox(
                 child: Center(
                     child: Image.asset(
-                      'assets/gif/conn.gif',
-                      height: 220,
-                      width: 220,
-                      fit: BoxFit.cover,
-                    )),
+                  'assets/gif/conn.gif',
+                  height: 220,
+                  width: 220,
+                  fit: BoxFit.cover,
+                )),
               )
             : Stack(
                 children: [
@@ -158,6 +172,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   ),
                                 ],
                               ),
+                              ////////////////// List of searched sites ///////////////////////////
                               Expanded(
                                 child: ListView.builder(
                                     itemCount: sites.length,
@@ -203,4 +218,56 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
+  Widget menuItems() {
+    return Align(
+        alignment: Alignment.topRight,
+        child: SizedBox(
+          width: 200,
+          height: 100,
+          child: Material(
+            child: ListView(
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) => const History())));
+                  },
+                  child: const ListTile(
+                    leading: Icon(
+                      Icons.history,
+                    ),
+                    title: Text('History'),
+                  ),
+                ),
+                InkWell(
+                    onTap: () async {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const BookMarks()));
+                    },
+                    child: const ListTile(
+                      leading: Icon(
+                        Icons.bookmarks,
+                      ),
+                      title: Text('Bookmarks'),
+                    )),
+                InkWell(
+                    onTap: () async {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PrivateBrowsing()));
+                    },
+                    child: const ListTile(
+                      leading: Icon(Icons.privacy_tip),
+                      title: Text('Private Browsing'),
+                    ))
+              ],
+            ),
+          ),
+        ));
+  }
 }

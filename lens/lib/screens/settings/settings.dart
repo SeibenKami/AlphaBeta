@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:lens/screens/settings/bookmarks/bookmarks.dart';
@@ -58,15 +57,7 @@ class _SettingsState extends State<Settings> {
                     const SizedBox(
                       height: 10,
                     ),
-                    // ItemCard(
-                    //   title: 'New Tab',
-                    //   color: Colors.black,
-                    //   rightWidget: const Icon(Icons.add),
-                    //   callback: () {
-                    //     print('Tap Settings Item 01');
-                    //   },
-                    // ),
-
+                     ////////////////// Dark theme change ///////////////////////////
                     ItemCard(
                       title:
                           themeChange.darkTheme ? 'Dark Theme' : 'Light Theme',
@@ -86,7 +77,7 @@ class _SettingsState extends State<Settings> {
                             }),
                       ),
                       callback: () {
-                        log('Tap Settings Item 06');
+                        
                       },
                     ),
 
@@ -108,6 +99,7 @@ class _SettingsState extends State<Settings> {
                     const SizedBox(
                       height: 10,
                     ),
+                     ////////////////// History ///////////////////////////
                     ItemCard(
                       title: 'History',
                       color: Colors.grey.shade900,
@@ -119,6 +111,7 @@ class _SettingsState extends State<Settings> {
                                 builder: (context) => const History()));
                       },
                     ),
+                     ////////////////// Bookmarks ///////////////////////////
                     ItemCard(
                       title: 'Bookmarks',
                       color: Colors.grey.shade900,
@@ -130,6 +123,7 @@ class _SettingsState extends State<Settings> {
                                 builder: (context) => const BookMarks()));
                       },
                     ),
+                     ////////////////// Private Search ///////////////////////////
                     ItemCard(
                       title: 'Private Search',
                       color: Colors.black,
@@ -144,6 +138,7 @@ class _SettingsState extends State<Settings> {
                     const SizedBox(
                       height: 60,
                     ),
+                     ////////////////// App Version ///////////////////////////
                     ItemCard(
                       title: 'Version',
                       color: Colors.grey.shade900,
@@ -157,6 +152,7 @@ class _SettingsState extends State<Settings> {
                       ),
                       callback: () {},
                     ),
+                     ////////////////// Team ///////////////////////////
                     ItemCard(
                       title: 'Developers',
                       color: Colors.grey.shade900,

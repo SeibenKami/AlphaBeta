@@ -51,6 +51,7 @@ class _PrivateBrowsingState extends State<PrivateBrowsing> {
         titleSpacing: 0,
         title: SizedBox(
           height: 38,
+          //////////////////////// Search Form Feild ////////////////////
           child: TextFormField(
             controller: searchController,
             style: TextStyle(color: Colors.black),
@@ -141,6 +142,7 @@ class _PrivateBrowsingState extends State<PrivateBrowsing> {
                                       fontSize: 25),
                                 ),
                               ),
+                              ////////////////// List of searched sites ///////////////////////////
                               Expanded(
                                 child: ListView.builder(
                                     itemCount: sites.length,
