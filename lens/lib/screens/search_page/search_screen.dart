@@ -22,6 +22,10 @@ class _SearchScreenState extends State<SearchScreen> {
   Map _source = {ConnectivityResult.none: false};
   final MyConnectivity _connectivity = MyConnectivity.instance;
   bool showMenu = false;
+  int totalsearches = 0;
+  int startIndex = 1;
+  int currentPage = 1;
+  int totalPages = 0;
 
   @override
   void initState() {
@@ -76,6 +80,8 @@ class _SearchScreenState extends State<SearchScreen> {
                 hintText: 'Search for web address',
                 suffixIcon: IconButton(
                   onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Search loading...")));
                     setState(() {});
                   },
                   icon: const Icon(
@@ -86,6 +92,8 @@ class _SearchScreenState extends State<SearchScreen> {
                 )),
             onFieldSubmitted: (value) {
               searchController.text = value;
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Search loading...")));
               setState(() {});
             },
           ),
@@ -95,7 +103,7 @@ class _SearchScreenState extends State<SearchScreen> {
             padding: const EdgeInsets.all(8.0),
             child: IconButton(
               onPressed: () {
-                 ////////////////// Menu List ///////////////////////////
+                ////////////////// Menu List ///////////////////////////
                 showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -141,37 +149,103 @@ class _SearchScreenState extends State<SearchScreen> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height,
                     child: FutureBuilder<Map<String, dynamic>>(
-                      future: ApiService().getSearches(searchController.text),
+                      future: ApiService()
+                          .getSearches(searchController.text, startIndex),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           final results = snapshot.data;
                           final engineTitle = results!["context"]['title'];
                           final sites = results['items'];
+                          totalsearches = int.parse(
+                              results['queries']['request'][0]['totalResults']);
+                          totalPages = (totalsearches ~/ 10);
                           return Column(
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 30,
-                                    width: 30,
-                                    //color: Colors.blue,
-                                    child: Image(
-                                        image: AssetImage(
-                                            "assets/images/placeholder.png")),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "$engineTitle",
-                                      style: const TextStyle(
-                                          color: Colors.green,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'fantasy',
-                                          fontSize: 25),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    // AppIcon
+                                    Row(
+                                      children: [
+                                        Container(
+                                          height: 30,
+                                          width: 30,
+                                          //color: Colors.blue,
+                                          child: Image(
+                                              image: AssetImage(
+                                                  "assets/images/placeholder.png")),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "$engineTitle",
+                                            style: const TextStyle(
+                                                color: Colors.green,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'fantasy',
+                                                fontSize: 25),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
+                                    Row(
+                                      children: [
+                                        currentPage == 1
+                                            ? Container()
+                                            : SizedBox(
+                                                width: 30,
+                                                child: TextButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        startIndex =
+                                                            startIndex - 10;
+                                                        currentPage--;
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                const SnackBar(
+                                                                    content: Text(
+                                                                        "Loading previous page...")));
+                                                      });
+                                                    },
+                                                    child: Icon(
+                                                        Icons.arrow_back_ios)),
+                                              ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        currentPage == totalPages
+                                            ? Container()
+                                            : SizedBox(
+                                                width: 30,
+                                                child: TextButton(
+                                                    onPressed: () {
+                                                      if (currentPage <
+                                                          totalPages) {
+                                                        setState(() {
+                                                          startIndex =
+                                                              startIndex + 10;
+                                                          currentPage++;
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                                  const SnackBar(
+                                                                      content: Text(
+                                                                          "Loading next page...")));
+                                                        });
+                                                      }
+                                                    },
+                                                    child: Icon(Icons
+                                                        .arrow_forward_ios)),
+                                              ),
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
                               ////////////////// List of searched sites ///////////////////////////
                               Expanded(
@@ -224,7 +298,7 @@ class _SearchScreenState extends State<SearchScreen> {
         alignment: Alignment.topRight,
         child: SizedBox(
           width: 250,
-           height: 180,
+          height: 180,
           child: Material(
             child: ListView(
               children: [
