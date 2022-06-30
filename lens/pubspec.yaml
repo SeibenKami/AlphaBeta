@@ -34,10 +34,38 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  http: ^0.13.4
+  sqflite: ^2.0.2+1
+  path_provider: ^2.0.11
+  shared_preferences: ^2.0.15
+  webview_flutter: ^3.0.4
+  provider: ^6.0.3
+  flutter_native_splash: ^2.1.5
+  flutter_app_name: ^0.1.0
+  cached_network_image: ^3.2.0
+  connectivity_plus: ^2.3.5
+  connectivity_plus_web: ^1.2.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  
+
+flutter_app_name:
+  name: "Lens"
+  flutter_lints: ^1.0.0
+
+flutter_native_splash:
+  color: "#10f2d4"
+  # color_dark: "#14021B"
+  image: "assets/images/splash.png"
+  # background_image: "assets/images/splashy.png"
+  android: true
+  ios: true
+  android_gravity: fill
+  ios_content_mode: scaleAspectFill
+  android_12: 
+     image: "assets/images/placeholder.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -58,8 +86,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/images/
+    - assets/gif/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
